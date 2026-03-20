@@ -51,26 +51,42 @@ def run_application(registry:PatientRegistry):
                     sys.exit()
                 # Register new patient
                 elif app_input == "1":
-                    name = input("Enter Pateint Name: ").strip()
-                    pid = registry.register_patient(name)
-                    print("Registered: ", pid)
+                    try:
+                        name = input("Enter Pateint Name: ").strip()
+                        pid = registry.register_patient(name)
+                        print("Registered: ", pid)
+                    except ValueError as e:
+                        print(f"\n{e}")
                 # Retrieve patient ID
                 elif app_input == "2":
-                    pid = input("Enter ID of Patient: ").strip()
-                    print(registry.get_patient(pid))
+                    try:
+                        pid = input("Enter ID of Patient: ").strip()
+                        print(registry.get_patient(pid))
+                    except LookupError as e:
+                        print(f"\n{e}")
+                        print("Valid ID format:  P-[some number above 100]")
                 # Update patient name
                 elif app_input == "3":
-                    pid = input("Enter ID of Patient to be Changed: ").strip()
-                    pid = registry.update_patient_name(pid)
-                    print("Updated: ", pid)
+                    try:
+                        pid = input("Enter ID of Patient to be Changed: ").strip()
+                        name = input("Enter New Name of " + pid + ": ").strip()
+                        pid = registry.update_patient_name(pid, name)
+                        print("Updated: ", pid)
+                    except LookupError as e:
+                        print(f"\n{e}")
+                        print("Valid ID format:  P-[some number above 100]")
                 # Delete patient by ID
                 elif app_input == "4":
-                    pid = input("Enter ID of Patient to be Deleted: ").strip()
-                    deleted = registry.delete_patient(pid)
-                    if deleted:
-                        print("Deletion of " + pid + " successful.")
-                    else:
-                        print("***ERROR*** - " + pid + " could not be deleted.")
+                    try:
+                        pid = input("Enter ID of Patient to be Deleted: ").strip()
+                        deleted = registry.delete_patient(pid)
+                        if deleted:
+                            print("Deletion of " + pid + " successful.")
+                        else:
+                            print("***ERROR*** - " + pid + " could not be deleted.")
+                    except LookupError as e:
+                        print(f"\n{e}")
+                        print("Valid ID format:  P-[some number above 100]")
                 # List all patients
                 elif app_input == "5":
                     print(registry.list_patients())

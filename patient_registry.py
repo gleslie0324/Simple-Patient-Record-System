@@ -79,7 +79,7 @@ class PatientRegistry:
         return self._database.get(patient_id, "ID Not Found")
     
 
-    def update_patient_name(self, patient_id:str) -> dict:
+    def update_patient_name(self, patient_id:str, new_name:str) -> dict:
         '''
         Updates the name of a patient in the database to given name
         
@@ -98,8 +98,6 @@ class PatientRegistry:
             raise ValueError("Patient ID cannot be empty")
         elif patient_id not in self._database:
             raise LookupError(f"No patient found with ID \'{patient_id}\'")
-        
-        new_name = input("Enter New Name of " + patient_id + ": ").strip()
 
         self._database[patient_id] = { "patient_id": patient_id, "name": new_name }
         
